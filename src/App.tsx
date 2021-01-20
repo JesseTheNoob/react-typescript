@@ -10,6 +10,7 @@ class StudentInformation {
 function App() {
   const [studentDataForm, setStudentDataForm] = useState<StudentInformation>(new StudentInformation());
   const [studentData, setStudentData] = useState<StudentInformation[]>([]);
+  const [message, setMessage] = useState<string>('');
   const addToForm = (): void => {
     setStudentData([...studentData, {...studentDataForm}]);
     setStudentDataForm(new StudentInformation());
@@ -17,6 +18,27 @@ function App() {
   const deleteItem = (index: number): void => {
     setStudentData(studentData.filter((item, i) => index !== i))
   }
+
+  // same ra ni sa componentDidMount
+  useEffect(() => {
+    setMessage('you are typing');
+
+    const timedExecution = setTimeout(() => {
+      setMessage('you are not typing');
+    }, 1000);
+
+    return () => clearTimeout(timedExecution);
+  }, [studentDataForm])
+
+  // same ra ni sa componentDidMount
+  useEffect(() => {
+    setMessage('componentDidMount');
+    
+    // same ni sa componentWillUnmount
+    return () => console.log('component unmount');
+  }, [])
+
+
   return (
     <div className="App">
       <label>firstname</label>
@@ -28,6 +50,7 @@ function App() {
       <label>year level</label>
       <input type='number' value={studentDataForm.yearLevel} onChange={(e) => setStudentDataForm({...studentDataForm, yearLevel: Number(e.target.value)})} /><br />
       <button onClick={addToForm}>add</button>
+      <p>{message}</p>
       <hr />
       <table>
           <tr>
