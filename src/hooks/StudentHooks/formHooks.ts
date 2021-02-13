@@ -17,7 +17,9 @@ export const useFormHooks = () => {
     const deleteItem = (index: number): void => {
       setStudentData(studentData.filter((item, i) => index !== i))
     }
-  
+    useEffect(() => {
+      console.log(studentData)
+    }, [studentData])
     // same ra ni sa componentDidMount
     useEffect(() => {
       setMessage('you are typing');
